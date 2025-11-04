@@ -17,11 +17,17 @@ export default function Home() {
               </div>
               <span className="text-xl font-bold text-gray-900">KRUX Finance</span>
             </div>
-            <nav className="flex space-x-8">
-              <Link href="/customer-chat" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <nav className="flex items-center gap-2">
+              <Link
+                href="/customer-chat"
+                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              >
                 Customer Chat
               </Link>
-              <Link href="/support-dashboard" className="text-gray-600 hover:text-blue-600 transition-colors">
+              <Link
+                href="/support-dashboard"
+                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+              >
                 Support Dashboard
               </Link>
             </nav>
