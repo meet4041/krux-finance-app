@@ -35,9 +35,6 @@ export default function SupportDashboardPage() {
               userType="agent" 
               onSuccess={() => setShowLogin(false)}
             />
-            <p className="text-xs text-white/40 text-center mt-4">
-              Demo: amit.kumar or sneha.singh
-            </p>
           </div>
         </div>
       </div>

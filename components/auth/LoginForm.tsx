@@ -46,7 +46,7 @@ export function LoginForm({ userType, onSuccess }: LoginFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {userType === 'customer' ? (
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-white-700 mb-2">
             Phone Number
           </label>
           <div className="relative">
@@ -54,20 +54,17 @@ export function LoginForm({ userType, onSuccess }: LoginFormProps) {
             <Input
               id="phone"
               type="tel"
-              placeholder="+919876543210"
+              placeholder="+91"
               value={credentials.phone}
               onChange={(e) => setCredentials({ ...credentials, phone: e.target.value })}
               className="pl-10"
               required
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Demo: +919876543210 or +919876543211
-          </p>
         </div>
       ) : (
         <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="username" className="block text-sm font-medium text-white-700 mb-2">
             Username
           </label>
           <div className="relative">
@@ -75,16 +72,13 @@ export function LoginForm({ userType, onSuccess }: LoginFormProps) {
             <Input
               id="username"
               type="text"
-              placeholder="amit.kumar"
+              placeholder="name"
               value={credentials.username}
               onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
               className="pl-10"
               required
             />
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Demo: amit.kumar or sneha.singh
-          </p>
         </div>
       )}
 
