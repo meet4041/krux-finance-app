@@ -32,6 +32,34 @@ const INITIAL_TICKETS: SupportTicket[] = [
 ];
 
 export const supportService = {
+  async createTicket(ticketPartial: Partial<SupportTicket>): Promise<SupportTicket> {
+    const tickets = (storage.get<SupportTicket[]>(TICKETS_KEY) || []).slice();
+    const ticket: SupportTicket = {
+      id: Date.now().toString(),
+      conversationId: ticketPartial.conversationId || Date.now().toString(),
+      customerId: ticketPartial.customerId || 'unknown',
+      customerName: ticketPartial.customerName || 'Unknown',
+      status: (ticketPartial.status as any) || 'open',
+      priority: (ticketPartial.priority as any) || 'medium',
+      category: (ticketPartial.category as any) || 'general',
+      createdAt: ticketPartial.createdAt || new Date(),
+      updatedAt: ticketPartial.updatedAt || new Date(),
+      firstResponseTime: ticketPartial.firstResponseTime,
+      resolutionTime: ticketPartial.resolutionTime
+    };
+
+    tickets.push(ticket);
+    storage.set(TICKETS_KEY, tickets);
+
+    // Notify other parts of the app (SupportProvider) that a ticket was created
+    try {
+      window.dispatchEvent(new CustomEvent('support:ticketCreated', { detail: ticket }));
+    } catch (e) {
+      // ignore (SSR or non-window environments)
+    }
+
+    return ticket;
+  },
   async getTickets(): Promise<SupportTicket[]> {
     const tickets = storage.get<SupportTicket[]>(TICKETS_KEY);
     if (!tickets || tickets.length === 0) {
@@ -50,6 +78,11 @@ export const supportService = {
       tickets.push(ticket);
     }
     storage.set(TICKETS_KEY, tickets);
+    try {
+      window.dispatchEvent(new CustomEvent('support:ticketUpdated', { detail: ticket }));
+    } catch (e) {
+      // ignore for non-browser envs
+    }
   },
 
   async getMessages(conversationId: string): Promise<Message[]> {

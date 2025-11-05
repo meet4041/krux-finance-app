@@ -4,6 +4,8 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { Conversation, Message } from '@/types';
 import { chatService } from '@/lib/chat';
+import { supportService } from '@/lib/support';
+import { authService } from '@/lib/auth';
 import { botService } from '@/lib/bot';
 
 interface ChatState {
@@ -125,6 +127,26 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_CONVERSATIONS', payload: [...state.conversations, conversation] });
     dispatch({ type: 'SET_CURRENT_CONVERSATION', payload: conversation });
     dispatch({ type: 'SET_MESSAGES', payload: [] });
+
+    // If this conversation category requires human support, create a support ticket
+    try {
+      if (category === 'status_check' || category === 'general') {
+        const currentUser = authService.getCurrentUser();
+        const priority = category === 'general' ? 'high' : 'medium';
+        await supportService.createTicket({
+          conversationId: conversation.id,
+          customerId: currentUser?.id || conversation.customerId,
+          customerName: currentUser?.name || conversation.customerName,
+          status: 'open',
+          priority: priority as any,
+          category: category as any,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      }
+    } catch (err) {
+      console.error('Error creating support ticket:', err);
+    }
     return conversation;
   };
 

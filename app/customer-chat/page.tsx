@@ -50,7 +50,7 @@ function CustomerChatContent() {
     }
   };
 
-  const handleSendMessage = async (content: string) => {
+  const handleSendMessage = async (content: string, category: any = 'loan_application') => {
     if (!user) return;
 
     setIsSending(true);
@@ -58,7 +58,7 @@ function CustomerChatContent() {
     try {
       // Ensure we have a conversation first
       if (!state.currentConversation) {
-        await startNewConversation('loan_application');
+        await startNewConversation(category);
       }
 
       await sendMessage(content);
@@ -83,35 +83,39 @@ function CustomerChatContent() {
       description: 'Get help with loan applications',
       icon: FileText,
       gradient: 'from-blue-500 to-cyan-500',
-      message: 'I need help with loan application'
+      message: 'I need help with loan application',
+      category: 'loan_application'
     },
     {
       title: 'Document Requirements',
       description: 'Check required documents',
       icon: FileText,
       gradient: 'from-green-500 to-emerald-500',
-      message: 'What documents do I need for loan application?'
+      message: 'What documents do I need for loan application?',
+      category: 'document_help'
     },
     {
       title: 'Application Status',
       description: 'Check my application status',
       icon: Clock,
       gradient: 'from-purple-500 to-pink-500',
-      message: 'I want to check my application status'
+      message: 'I want to check my application status',
+      category: 'status_check'
     },
     {
       title: 'Speak to Agent',
       description: 'Connect with human agent',
       icon: Headphones,
       gradient: 'from-orange-500 to-red-500',
-      message: 'I want to speak to a human agent'
+      message: 'I want to speak to a human agent',
+      category: 'general'
     }
   ];
 
-  const handleQuickAction = async (actionMessage: string) => {
+  const handleQuickAction = async (action: any) => {
     if (isSending) return; // Prevent multiple clicks
-
-    await handleSendMessage(actionMessage);
+    // Ensure conversation exists with appropriate category (creates support ticket for certain categories)
+    await handleSendMessage(action.message, action.category);
   };
 
   if (!user) {

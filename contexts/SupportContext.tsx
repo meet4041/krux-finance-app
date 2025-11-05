@@ -78,6 +78,27 @@ export function SupportProvider({ children }: { children: React.ReactNode }) {
     loadTickets();
   }, []);
 
+  // Listen for ticket changes created from other parts of the app (like customer chat)
+  useEffect(() => {
+    const onCreated = () => loadTickets();
+    const onUpdated = () => loadTickets();
+    try {
+      window.addEventListener('support:ticketCreated', onCreated as EventListener);
+      window.addEventListener('support:ticketUpdated', onUpdated as EventListener);
+    } catch (e) {
+      // ignore in non-browser environments
+    }
+
+    return () => {
+      try {
+        window.removeEventListener('support:ticketCreated', onCreated as EventListener);
+        window.removeEventListener('support:ticketUpdated', onUpdated as EventListener);
+      } catch (e) {
+        // ignore
+      }
+    };
+  }, []);
+
   const loadTickets = async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
     const tickets = await supportService.getTickets();
