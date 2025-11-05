@@ -170,39 +170,6 @@ function CustomerChatContent() {
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-blue-50/50 rounded-2xl border border-gray-200/50">
-            <p className="text-sm font-semibold text-gray-700 text-center mb-4">
-              Credentials
-            </p>
-            <div className="space-y-3">
-              {[
-                { name: 'Rahul Sharma', phone: '+919876543210', color: 'blue' },
-                { name: 'Priya Patel', phone: '+919876543211', color: 'indigo' }
-              ].map((demo, index) => (
-                <button
-                  key={index}
-                  onClick={() => setName(demo.name)}
-                  className="w-full flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 group"
-                >
-                  <div className={`w-10 h-10 bg-${demo.color}-100 rounded-lg flex items-center justify-center group-hover:bg-${demo.color}-200 transition-colors`}>
-                    <User className={`w-5 h-5 text-${demo.color}-600`} />
-                  </div>
-                  <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-gray-900">{demo.name}</p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Phone className="w-3 h-3 text-gray-500" />
-                      <code className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                        {demo.phone}
-                      </code>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Back to Home Button */}
           <div className="mt-6 text-center">
             <a
