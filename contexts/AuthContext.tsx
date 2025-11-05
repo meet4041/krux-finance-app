@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (credentials: { phone?: string; username?: string }): Promise<boolean> => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const foundUser = mockUsers.find(u => 
+    const foundUser = mockUsers.find(u =>
       (credentials.phone && u.phone === credentials.phone) ||
       (credentials.username && u.username === credentials.username)
     );

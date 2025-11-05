@@ -17,14 +17,12 @@ export default function Home() {
     if (user?.role === 'agent') {
       router.push('/support-dashboard');
     } else {
-      // If not an agent, redirect to support dashboard which will show login
       router.push('/support-dashboard');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -inset-10 opacity-20">
           <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -33,7 +31,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Header */}
       <header className="relative bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -64,10 +61,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          {/* Main Heading */}
           <div className="mb-8">
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               Intelligent
@@ -81,9 +76,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Feature Cards */}
           <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-            {/* Customer Chat Card */}
             <div className="group relative">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300">
@@ -108,7 +101,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Support Dashboard Card */}
             <div className="group relative">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300">
@@ -134,7 +126,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-12 text-white">
             <div className="text-center">
               <div className="text-2xl font-bold text-cyan-400">24/7</div>

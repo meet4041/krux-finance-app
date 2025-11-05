@@ -27,11 +27,9 @@ export function ChatPanel() {
     const handleSendMessage = () => {
         if (!inputMessage.trim() || !selectedTicket) return;
 
-        // Add agent message
         addMessageToTicket(selectedTicket.id, inputMessage, 'agent');
         setInputMessage('');
 
-        // Update ticket status if it was open
         if (selectedTicket.status === 'open') {
             updateTicket({
                 ...selectedTicket,
@@ -87,8 +85,6 @@ export function ChatPanel() {
 
     return (
         <div className="flex-1 flex flex-col bg-white">
-            {/* Chat Header */}
-      // In the ChatPanel component, update the header section:
             <div className="border-b border-white/10 bg-slate-800/80 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -109,13 +105,10 @@ export function ChatPanel() {
                         <Badge variant="outline" className="bg-purple-500/20 text-purple-200 border-purple-500/30">
                             {selectedTicket.category}
                         </Badge>
-                        {/* ... rest of buttons */}
                     </div>
                 </div>
             </div>
 
-            {/* Messages Container */}
-            {/* <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-red-500"> */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-800/80">
                 {selectedTicket.messages.map((message) => (
                     <div
@@ -124,8 +117,8 @@ export function ChatPanel() {
                     >
                         <div
                             className={`flex max-w-xs md:max-w-md lg:max-w-lg ${message.sender === 'user'
-                                    ? 'bg-white text-gray-900 border border-gray-200'
-                                    : 'bg-krux-blue text-white'
+                                ? 'bg-white text-gray-900 border border-gray-200'
+                                : 'bg-krux-blue text-white'
                                 } rounded-2xl px-4 py-2 shadow-sm`}
                         >
                             <div className="flex items-start space-x-2">
@@ -162,10 +155,8 @@ export function ChatPanel() {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Agent Tools */}
             <AgentTools onQuickReply={handleQuickReply} />
 
-            {/* Input Area */}
             <div className="border-t bg-black p-4">
                 <div className="flex space-x-2">
                     <Input

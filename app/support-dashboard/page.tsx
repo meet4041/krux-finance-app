@@ -43,7 +43,6 @@ export default function SupportDashboardPage() {
 
   return (
     <div className="h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col">
-      {/* Header */}
       <header className="glass border-b border-white/10">
         <div className="px-6 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -81,7 +80,6 @@ export default function SupportDashboardPage() {
         </div>
       </header>
 
-      {/* Dashboard */}
       <div className="flex-1 overflow-hidden">
         <SupportDashboard />
       </div>

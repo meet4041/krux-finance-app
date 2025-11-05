@@ -30,10 +30,10 @@ function ticketReducer(state: TicketState, action: TicketAction): TicketState {
   switch (action.type) {
     case 'SET_TICKETS':
       return { ...state, tickets: action.payload };
-    
+
     case 'SELECT_TICKET':
       return { ...state, selectedTicket: action.payload };
-    
+
     case 'UPDATE_TICKET':
       const updatedTickets = state.tickets.map(ticket =>
         ticket.id === action.payload.id ? action.payload : ticket
@@ -44,7 +44,7 @@ function ticketReducer(state: TicketState, action: TicketAction): TicketState {
         tickets: updatedTickets,
         selectedTicket: state.selectedTicket?.id === action.payload.id ? action.payload : state.selectedTicket
       };
-    
+
     case 'ADD_MESSAGE':
       const ticketToUpdate = state.tickets.find(t => t.id === action.payload.ticketId);
       if (ticketToUpdate) {
@@ -71,13 +71,13 @@ function ticketReducer(state: TicketState, action: TicketAction): TicketState {
         };
       }
       return state;
-    
+
     case 'SET_FILTER':
       return { ...state, filter: action.payload };
-    
+
     case 'SET_SEARCH_QUERY':
       return { ...state, searchQuery: action.payload };
-    
+
     default:
       return state;
   }
