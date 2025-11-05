@@ -1,55 +1,84 @@
-// contexts/AuthContext.tsx
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '@/types';
-import { authService } from '@/lib/auth';
-
-interface AuthContextType {
-  user: User | null;
-  login: (credentials: { phone?: string; username?: string }) => Promise<boolean>;
-  logout: () => void;
-  isLoading: boolean;
-}
+import { User, AuthContextType } from '@/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const mockUsers: User[] = [
+  {
+    id: '1',
+    name: 'Rahul Sharma',
+    phone: '+919876543210',
+    role: 'customer'
+  },
+  {
+    id: '2',
+    name: 'Priya Patel',
+    phone: '+919876543211',
+    role: 'customer'
+  },
+  {
+    id: '3',
+    name: 'Amit Kumar',
+    username: 'amit.kumar',
+    role: 'agent'
+  },
+  {
+    id: '4',
+    name: 'Sneha Singh',
+    username: 'sneha.singh',
+    role: 'agent'
+  }
+];
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-    setIsLoading(false);
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
   }, []);
 
-  const login = async (credentials: { phone?: string; username?: string }) => {
-    setIsLoading(true);
-    const success = await authService.login(credentials);
-    if (success) {
-      setUser(authService.getCurrentUser());
+  const login = async (credentials: { phone?: string; username?: string }): Promise<boolean> => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const foundUser = mockUsers.find(u => 
+      (credentials.phone && u.phone === credentials.phone) ||
+      (credentials.username && u.username === credentials.username)
+    );
+
+    if (foundUser) {
+      setUser(foundUser);
+      localStorage.setItem('currentUser', JSON.stringify(foundUser));
+      return true;
     }
-    setIsLoading(false);
-    return success;
+    return false;
   };
 
   const logout = () => {
-    authService.logout();
     setUser(null);
+    localStorage.removeItem('currentUser');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
+      isAuthenticated: !!user
+    }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}
+};

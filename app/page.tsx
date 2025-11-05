@@ -1,161 +1,156 @@
-// app/page.tsx
 'use client';
 
-import Link from 'next/link';
-import { MessageCircle, Users, ArrowRight, Sparkles, Bot, Zap } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { MessageCircle, Users, ArrowRight, Shield, Sparkles, Bot, HeadphonesIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleCustomerChat = () => {
+    router.push('/customer-chat');
+  };
+
+  const handleSupportDashboard = () => {
+    if (user?.role === 'agent') {
+      router.push('/support-dashboard');
+    } else {
+      // If not an agent, redirect to support dashboard which will show login
+      router.push('/support-dashboard');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -inset-10 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+          <div className="absolute bottom-1/4 left-1/2 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+        </div>
+      </div>
+
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
+      <header className="relative bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">K</span>
+              <div className="relative">
+                <Shield className="h-8 w-8 text-white" />
+                <Sparkles className="h-4 w-4 text-yellow-400 absolute -top-1 -right-1" />
               </div>
-              <div>
-                <span className="text-2xl ml-3 font-bold bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text text-transparent">
-                  KRUX Finance
-                </span>
-                <p className="text-sm ml-3 text-gray-600">Customer Support System</p>
-              </div>
+              <span className="text-xl font-bold text-white">KRUX Finance</span>
             </div>
-            <nav className="flex items-center gap-3">
-              <Link
-                href="/customer-chat"
-                className="px-4 py-2.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-all duration-200 border border-blue-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Customer Chat
-              </Link>
-              <Link
-                href="/support-dashboard"
-                className="px-4 py-2.5 text-sm font-medium text-green-600 hover:text-green-700 hover:bg-green-50 rounded-xl transition-all duration-200 border border-green-200 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-              >
-                Support Dashboard
-              </Link>
-            </nav>
+            
+            {user && (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-white/80">
+                  Welcome, {user.name}
+                </span>
+                <Button 
+                  variant="outline" 
+                  onClick={logout} 
+                  size="sm"
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20"
+                >
+                  Logout
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
           {/* Main Heading */}
-          <div className="relative inline-block mb-8">
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl blur-lg opacity-20"></div>
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 relative">
-              KRUX Finance
-              <span className="block text-transparent bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text">
-                Support System
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+              Intelligent
+              <span className="block bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Support Hub
               </span>
             </h1>
+            <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+              Experience next-generation customer support with AI-powered assistance 
+              and seamless human collaboration.
+            </p>
           </div>
-
-          {/* Subtitle */}
-          <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto leading-relaxed">
-            Experience seamless customer support with our dual-interface system.
-            Get instant help for loan applications or manage customer conversations efficiently.
-          </p>
 
           {/* Feature Cards */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
             {/* Customer Chat Card */}
-            <Link
-              href="/customer-chat"
-              className="group bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 p-8 text-left border border-white/20 hover:border-blue-300/50 hover:scale-105"
-            >
-              <div className="flex items-center mb-6">
-                <div className="relative">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <MessageCircle className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-400 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
-                    <Sparkles className="w-3 h-3 text-white" />
-                  </div>
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+                  <Bot className="h-10 w-10 text-white" />
                 </div>
-                <ArrowRight className="w-6 h-6 text-gray-400 ml-auto group-hover:text-blue-600 group-hover:translate-x-2 transition-all duration-300" />
+                <h3 className="text-2xl font-semibold text-white mb-4">
+                  AI Assistant
+                </h3>
+                <p className="text-white/70 mb-6 leading-relaxed">
+                  Get instant, intelligent responses for loan inquiries, document requirements, 
+                  and application status. Available 24/7 with human escalation when needed.
+                </p>
+                <Button 
+                  onClick={handleCustomerChat}
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white border-0 shadow-lg shadow-cyan-500/25"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Start Conversation
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text text-transparent mb-4">
-                Customer Chat
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Get instant help with loan applications, document requirements, and application status through our AI-powered assistant.
-              </p>
-              <ul className="text-sm text-gray-500 space-y-2">
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Automated loan assistance
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Document requirement guidance
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Real-time status updates
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                  Human agent escalation
-                </li>
-              </ul>
-              <div className="mt-6 flex items-center text-blue-600 font-medium">
-                Start Chatting
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </div>
-            </Link>
+            </div>
 
             {/* Support Dashboard Card */}
-            <Link
-              href="/support-dashboard"
-              className="group bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 p-8 text-left border border-white/20 hover:border-green-300/50 hover:scale-105"
-            >
-              <div className="flex items-center mb-6">
-                <div className="relative">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <Users className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
-                    <Zap className="w-3 h-3 text-white" />
-                  </div>
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+                  <HeadphonesIcon className="h-10 w-10 text-white" />
                 </div>
-                <ArrowRight className="w-6 h-6 text-gray-400 ml-auto group-hover:text-green-600 group-hover:translate-x-2 transition-all duration-300" />
+                <h3 className="text-2xl font-semibold text-white mb-4">
+                  Agent Workspace
+                </h3>
+                <p className="text-white/70 mb-6 leading-relaxed">
+                  Advanced dashboard for support agents with intelligent ticket routing, 
+                  customer insights, and productivity tools for exceptional service delivery.
+                </p>
+                <Button 
+                  onClick={handleSupportDashboard}
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg shadow-purple-500/25"
+                >
+                  <Users className="mr-2 h-5 w-5" />
+                  {user?.role === 'agent' ? 'Access Workspace' : 'Login as Agent'}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-br from-green-600 to-emerald-700 bg-clip-text text-transparent mb-4">
-                Support Dashboard
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Manage customer conversations, track performance metrics, and provide efficient support with powerful agent tools.
-              </p>
-              <ul className="text-sm text-gray-500 space-y-2">
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Ticket queue management
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Quick reply templates
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Performance metrics
-                </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                  Real-time synchronization
-                </li>
-              </ul>
-              <div className="mt-6 flex items-center text-green-600 font-medium">
-                Access Dashboard
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-              </div>
-            </Link>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-12 text-white">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-cyan-400">24/7</div>
+              <div className="text-sm text-white/60">Available</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-400">99%</div>
+              <div className="text-sm text-white/60">Satisfaction</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-pink-400">2min</div>
+              <div className="text-sm text-white/60">Avg Response</div>
+            </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
