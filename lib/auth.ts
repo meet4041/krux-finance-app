@@ -39,7 +39,16 @@ export const authService = {
     if (credentials.phone) {
       user = MOCK_USERS.find(u => u.phone === credentials.phone);
     } else if (credentials.username) {
-      user = MOCK_USERS.find(u => u.username === credentials.username);
+      // Try to find by username first
+      user = MOCK_USERS.find(u => u.username === credentials.username || u.name === credentials.username);
+      // If not found, create a temporary customer user using the provided name so arbitrary names can start a chat
+      if (!user) {
+        user = {
+          id: Date.now().toString(),
+          name: credentials.username,
+          role: 'customer'
+        } as User;
+      }
     }
 
     if (user) {

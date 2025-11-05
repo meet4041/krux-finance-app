@@ -1,6 +1,7 @@
 // lib/chat.ts
 import { Conversation, Message } from '@/types';
 import { storage } from './storage';
+import { authService } from './auth';
 
 const CONVERSATIONS_KEY = 'chat_conversations';
 const MESSAGES_KEY = 'chat_messages';
@@ -17,10 +18,12 @@ export const chatService = {
 
   async createConversation(category: Conversation['category']): Promise<Conversation> {
     const conversations = await this.getConversations();
+    const currentUser = authService.getCurrentUser();
+
     const conversation: Conversation = {
       id: Date.now().toString(),
-      customerId: 'current-customer', // Would come from auth in real app
-      customerName: 'Current Customer',
+      customerId: currentUser?.id || 'current-customer',
+      customerName: currentUser?.name || 'Current Customer',
       status: 'active',
       priority: 'medium',
       category,

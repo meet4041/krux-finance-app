@@ -24,7 +24,7 @@ function CustomerChatContent() {
   const { user, login, logout } = useAuth();
   const { state, sendMessage, startNewConversation } = useChat();
   const [message, setMessage] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
@@ -42,10 +42,11 @@ function CustomerChatContent() {
     e.preventDefault();
     setIsLoading(true);
     setLoginError(null);
-    const success = await login({ phone });
+    const success = await login({ username: name });
     setIsLoading(false);
     if (!success) {
-      setLoginError('Invalid phone number. Please try the demo numbers below.');
+      // If login failed (shouldn't for arbitrary names due to fallback), show a friendly message
+      setLoginError('Could not login with that name. Try a different name or use one of the demo profiles below.');
     }
   };
 
@@ -136,17 +137,17 @@ function CustomerChatContent() {
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-3">
-                Phone Number
+                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">
+                Your name
               </label>
               <div className="relative">
-                <Phone className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <User className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
-                  id="phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+91 98765 43210"
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
                   className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/50 backdrop-blur-sm"
                   required
                 />
@@ -178,21 +179,21 @@ function CustomerChatContent() {
               {[
                 { name: 'Rahul Sharma', phone: '+919876543210', color: 'blue' },
                 { name: 'Priya Patel', phone: '+919876543211', color: 'indigo' }
-              ].map((user, index) => (
+              ].map((demo, index) => (
                 <button
                   key={index}
-                  onClick={() => setPhone(user.phone)}
+                  onClick={() => setName(demo.name)}
                   className="w-full flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 group"
                 >
-                  <div className={`w-10 h-10 bg-${user.color}-100 rounded-lg flex items-center justify-center group-hover:bg-${user.color}-200 transition-colors`}>
-                    <User className={`w-5 h-5 text-${user.color}-600`} />
+                  <div className={`w-10 h-10 bg-${demo.color}-100 rounded-lg flex items-center justify-center group-hover:bg-${demo.color}-200 transition-colors`}>
+                    <User className={`w-5 h-5 text-${demo.color}-600`} />
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                    <p className="text-sm font-medium text-gray-900">{demo.name}</p>
                     <div className="flex items-center gap-1 mt-1">
                       <Phone className="w-3 h-3 text-gray-500" />
                       <code className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                        {user.phone}
+                        {demo.phone}
                       </code>
                     </div>
                   </div>
@@ -394,7 +395,7 @@ function CustomerChatContent() {
               type="submit"
               disabled={!message.trim() || isSending}
               className="ml-2 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-2xl hover:from-blue-700 hover:to-indigo-800 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl group relative"
-              title={!message.trim() ? "Type a message to send" : "Send message"}
+              title={message.trim() ? "Send message" : "Type a message to send"}
             >
               {isSending ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
