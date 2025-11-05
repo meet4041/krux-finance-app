@@ -16,7 +16,8 @@ import {
   Clock,
   Headphones,
   Bot,
-  ChevronRight
+  ChevronRight,
+  Home // Added Home icon
 } from 'lucide-react';
 
 function CustomerChatContent() {
@@ -150,11 +151,6 @@ function CustomerChatContent() {
                   required
                 />
               </div>
-              {loginError && (
-                <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
-                  <span>⚠️</span> {loginError}
-                </p>
-              )}
             </div>
 
             <button
@@ -176,7 +172,7 @@ function CustomerChatContent() {
           {/* Demo Credentials */}
           <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-blue-50/50 rounded-2xl border border-gray-200/50">
             <p className="text-sm font-semibold text-gray-700 text-center mb-4">
-              🚀 Demo Credentials
+              Credentials
             </p>
             <div className="space-y-3">
               {[
@@ -205,6 +201,17 @@ function CustomerChatContent() {
               ))}
             </div>
           </div>
+
+          {/* Back to Home Button */}
+          <div className="mt-6 text-center">
+            <a
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-2xl transition-all duration-200 font-medium group"
+            >
+              <Home className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              Back to Home
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -217,25 +224,24 @@ function CustomerChatContent() {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <a href="/" className="relative group flex items-center space-x-4">
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
-                    <MessageCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full flex items-center justify-center border-2 border-white">
-                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                  </div>
+              <div className="relative">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200">
+                  <MessageCircle className="w-6 h-6 text-white" />
                 </div>
-                <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-br ml-4 from-blue-600 to-indigo-700 bg-clip-text text-transparent">
-                    KRUX Support
-                  </h1>
-                  <p className="text-sm text-gray-600 flex ml-4 items-center gap-1">
-                    <Bot className="w-3 h-3" />
-                    AI Assistant
-                  </p>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full flex items-center justify-center border-2 border-white">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full" />
                 </div>
-              </a>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-br ml-4 from-blue-600 to-indigo-700 bg-clip-text text-transparent">
+                  KRUX Support
+                </h1>
+                <p className="text-sm text-gray-600 flex ml-4 items-center gap-1">
+                  <Bot className="w-3 h-3" />
+                  AI Assistant
+                </p>
+              </div>
+
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3 bg-white/50 backdrop-blur-sm mr-2 rounded-xl px-4 py-2 border border-gray-200/50">
